@@ -31,7 +31,7 @@ var hash = crypto2.hash.sha1('the native web');
 // => cc762e69089ee2393b061ab26a005319bda94744
 ```
 
-If you want crypto2 to select a hash algorithm for you, call the `hash` function without giving a specific algorithm. This defaults to the SHA1 hash algorithm.
+If you want crypto2 to select a hash algorithm for you, call the `hash` function without any specific algorithm. This defaults to the SHA1 hash algorithm.
 
 ```javascript
 var hash = crypto2.hash('the native web');
