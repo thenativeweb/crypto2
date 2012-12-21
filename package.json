@@ -1,0 +1,19 @@
+{
+  "name": "crypto2",
+  "version": "0.0.1",
+  "description": "crypto2 is a convenience wrapper around Node.js' crypto module.",
+  "author": "Golo Roden <golo.roden@thenativeweb.io> (http://www.thenativeweb.io)",
+  "main": "lib/crypto2.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "node-assertthat": "0.0.13"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thenativeweb/crypto2.git"
+  }
+}
