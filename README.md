@@ -24,6 +24,13 @@ var crypto2 = require('crypto2');
 
 ### Hashing
 
+To calculate the MD5 hash value of a string call the `hash.md5` function.
+
+```javascript
+var hash = crypto2.hash.md5('the native web');
+// => 4e8ba2e64931c64b63f4dc8d90e1dc7c
+```
+
 To calculate the SHA1 hash value of a string call the `hash.sha1` function.
 
 ```javascript
