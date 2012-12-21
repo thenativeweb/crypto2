@@ -24,6 +24,13 @@ var crypto2 = require('crypto2');
 
 ### Hashing
 
+If you want crypto2 to select a hash algorithm for you, call the `hash` function without any specific algorithm. This defaults to the SHA1 hash algorithm.
+
+```javascript
+var hash = crypto2.hash('the native web');
+// => cc762e69089ee2393b061ab26a005319bda94744
+```
+
 To calculate the MD5 hash value of a string call the `hash.md5` function.
 
 ```javascript
@@ -35,13 +42,6 @@ To calculate the SHA1 hash value of a string call the `hash.sha1` function.
 
 ```javascript
 var hash = crypto2.hash.sha1('the native web');
-// => cc762e69089ee2393b061ab26a005319bda94744
-```
-
-If you want crypto2 to select a hash algorithm for you, call the `hash` function without any specific algorithm. This defaults to the SHA1 hash algorithm.
-
-```javascript
-var hash = crypto2.hash('the native web');
 // => cc762e69089ee2393b061ab26a005319bda94744
 ```
 
