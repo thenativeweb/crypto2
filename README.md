@@ -19,7 +19,7 @@ var crypto2 = require('crypto2');
 For encrypting and decrypting you will need a password. You can either use an existing one or you can create a new one by calling the `createPassword` function. This function creates passwords with 32 bytes (256 bits) length.
 
 ```javascript
-crypto.createPassword(function (password) {
+crypto2.createPassword(function (password) {
   // ...
 });
 ```
