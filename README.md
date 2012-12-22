@@ -43,7 +43,7 @@ For signing and verifying you will need a PEM encoded private and public key pai
     $ openssl genrsa -out key.pem 2048
     $ openssl rsa -in key.pem -pubout > key.pub
 
-Alternatively the key pair may be created programmatically by calling the `createKeyPair` function. This function creates a 2048-bit strong RSA key pair.
+Alternatively the key pair may be created programmatically by calling the `createKeyPair` function. This function creates a 2048-bit strong RSA key pair in PEM format.
 
 ```javascript
 crypto2.createKeyPair(function (privateKey, publicKey) {
