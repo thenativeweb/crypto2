@@ -48,7 +48,7 @@ openssl rsa -in key.pem -pubout > key.pub
 To load a private key from a `.pem` file call the `readPrivateKey` function and specify the name of the key file.
 
 ```javascript
-crypto2.readPrivateKey('key.pem', function (key) {
+crypto2.readPrivateKey('key.pem', function (privateKey) {
   // ...
 });
 ```
@@ -56,7 +56,7 @@ crypto2.readPrivateKey('key.pem', function (key) {
 To load a public key from a `.pub` file call the `readPublicKey` function and specify the name of the key file.
 
 ```javascript
-crypto2.readPublicKey('key.pub', function (key) {
+crypto2.readPublicKey('key.pub', function (publicKey) {
   // ...
 });
 ```
