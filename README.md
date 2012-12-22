@@ -26,7 +26,7 @@ crypto2.createPassword(function (password) {
 
 ### Creating and managing keys
 
-For signing and verifying as well as encrypting and decrypting using asymmetric encryption algorithms you will need a PEM encoded private and public key pair. You can use the `openssl` command-line tool to create both of them.
+For signing and verifying as well as for encrypting and decrypting using asymmetric encryption algorithms you will need a PEM encoded private and public key pair. You can use the `openssl` command-line tool to create both of them.
 
     $ openssl genrsa -out key.pem 2048
     $ openssl rsa -in key.pem -pubout > key.pub
