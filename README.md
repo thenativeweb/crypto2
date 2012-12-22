@@ -40,10 +40,8 @@ var decrypted = crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 's
 
 For signing and verifying you will need a PEM encoded private and public key pair. Use the `openssl` command-line tool to create both of them.
 
-```bash
-$ openssl genrsa -out key.pem 2048
-$ openssl rsa -in key.pem -pubout > key.pub
-```
+    $ openssl genrsa -out key.pem 2048
+    $ openssl rsa -in key.pem -pubout > key.pub
 
 To load a private key from a `.pem` file call the `readPrivateKey` function and specify the name of the key file.
 
