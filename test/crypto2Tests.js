@@ -26,7 +26,7 @@ suite('crypto2', function () {
   });
 
   suite('readPublicKey', function () {
-    test('reads a public key from a .pem file.', function (done) {
+    test('reads a public key from a .pub file.', function (done) {
       crypto2.readPublicKey('./test/key.pub', function (key) {
         assert.that(ursa.isPublicKey(key), is.equalTo(true));
         done();
