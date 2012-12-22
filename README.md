@@ -54,7 +54,7 @@ If you want crypto2 to select a signing algorithm for you, call the `sign` and `
 var signature = crypto2.sign('the native web', privateKey);
 // => [...]
 
-var isSignatureValid = crypto2.verify('the native web', publicKey, '[...]');
+var isSignatureValid = crypto2.verify('the native web', publicKey, signature);
 // => true
 ```
 
@@ -64,7 +64,7 @@ To sign and verify using the RSA SHA256 signing algorithm call the `sign.rsasha2
 var signature = crypto2.sign.rsasha256('the native web', privateKey);
 // => [...]
 
-var isSignatureValid = crypto2.verify.rsasha256('the native web', publicKey, '[...]');
+var isSignatureValid = crypto2.verify.rsasha256('the native web', publicKey, signature);
 // => true
 ```
 
