@@ -29,20 +29,20 @@ crypto2.createPassword(function (password) {
 If you want crypto2 to select an encryption algorithm for you, call the `encrypt` and `decrypt` functions without any specific algorithm. This defaults to the AES 256 CBC encryption algorithm.
 
 ```javascript
-var encrypted = crypto2.encrypt('the native web', 'secret');
+var encrypted = crypto2.encrypt('the native web', password);
 // => 6c9ae06e9cd536bf38d0f551f8150065
 
-var decrypted = crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', 'secret');
+var decrypted = crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', password);
 // => the native web
 ```
 
 To encrypt and decrypt using the AES 256 CBC encryption algorithm call the `encrypt.aes256cbc` and `decrypt.aes256cbc` functions.
 
 ```javascript
-var encrypted = crypto2.encrypt.aes256cbc('the native web', 'secret');
+var encrypted = crypto2.encrypt.aes256cbc('the native web', password);
 // => 6c9ae06e9cd536bf38d0f551f8150065
 
-var decrypted = crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 'secret');
+var decrypted = crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', password);
 // => the native web
 ```
 
