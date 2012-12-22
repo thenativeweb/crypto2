@@ -14,6 +14,16 @@ The first thing you need to do is to integrate crypto2 into your application. Fo
 var crypto2 = require('crypto2');
 ```
 
+### Creating passwords
+
+For encrypting and decrypting you will need a password. You can either use an existing one or you can create a new one by calling the `createPassword` function. This function creates passwords with 32 bytes (256 bits) length.
+
+```javascript
+crypto.createPassword(function (password) {
+  // ...
+});
+```
+
 ### Encrypting and decrypting
 
 If you want crypto2 to select an encryption algorithm for you, call the `encrypt` and `decrypt` functions without any specific algorithm. This defaults to the AES 256 CBC encryption algorithm.
