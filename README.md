@@ -83,7 +83,7 @@ To encrypt and decrypt using the asymmetric RSA encryption algorithm call the `e
 var encrypted = crypto2.encrypt.rsa('the native web', publicKey);
 // => [...]
 
-var decrypted = crypto2.decrypt.aes256cbc(encrypted, privateKey);
+var decrypted = crypto2.decrypt.rsa(encrypted, privateKey);
 // => the native web
 ```
 
