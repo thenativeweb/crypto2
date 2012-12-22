@@ -7,7 +7,7 @@ var crypto2 = require('../lib/crypto2');
 
 suite('crypto2', function () {
   suite('createPassword', function () {
-    test('returns a new password.', function (done) {
+    test('returns a new random password with 32 bytes length.', function (done) {
       crypto2.createPassword(function (password) {
         assert.that(password.length, is.equalTo(32));
         done();
