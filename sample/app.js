@@ -1,3 +1,5 @@
+'use strict';
+
 var crypto2 = require('../lib/crypto2');
 
 var text = 'the native web';
