@@ -50,6 +50,19 @@ suite('crypto2', function () {
       });
     });
 
+    suite('rsa', function () {
+      test('encrypts using the RSA encryption standard.', function (done) {
+        crypto2.readPublicKey('./test/key.pub', function (publicKey) {
+          var encrypted = crypto2.encrypt.rsa('the native web', publicKey);
+          crypto2.readPrivateKey('./test/key.pem', function (privateKey) {
+            var decrypted = crypto2.decrypt.rsa(encrypted, privateKey);
+            assert.that(decrypted, is.equalTo('the native web'));
+            done();
+          });
+        });
+      });
+    });
+
     test('defaults to AES 256 CBC.', function () {
       assert.that(crypto2.encrypt('the native web', 'secret'), is.equalTo(crypto2.encrypt.aes256cbc('the native web', 'secret')));
     });
@@ -59,6 +72,19 @@ suite('crypto2', function () {
     suite('aes256cbc', function () {
       test('decrypts using the AES 256 CBC encryption standard.', function () {
         assert.that(crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 'secret'), is.equalTo('the native web'));
+      });
+    });
+
+    suite('rsa', function () {
+      test('decrypts using the RSA encryption standard.', function (done) {
+        crypto2.readPublicKey('./test/key.pub', function (publicKey) {
+          var encrypted = crypto2.encrypt.rsa('the native web', publicKey);
+          crypto2.readPrivateKey('./test/key.pem', function (privateKey) {
+            var decrypted = crypto2.decrypt.rsa(encrypted, privateKey);
+            assert.that(decrypted, is.equalTo('the native web'));
+            done();
+          });
+        });
       });
     });
 

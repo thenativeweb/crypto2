@@ -24,31 +24,9 @@ crypto2.createPassword(function (password) {
 });
 ```
 
-### Encrypting and decrypting
-
-If you want crypto2 to select an encryption algorithm for you, call the `encrypt` and `decrypt` functions without any specific algorithm. This defaults to the AES 256 CBC encryption algorithm.
-
-```javascript
-var encrypted = crypto2.encrypt('the native web', password);
-// => 6c9ae06e9cd536bf38d0f551f8150065
-
-var decrypted = crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', password);
-// => the native web
-```
-
-To encrypt and decrypt using the AES 256 CBC encryption algorithm call the `encrypt.aes256cbc` and `decrypt.aes256cbc` functions.
-
-```javascript
-var encrypted = crypto2.encrypt.aes256cbc('the native web', password);
-// => 6c9ae06e9cd536bf38d0f551f8150065
-
-var decrypted = crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', password);
-// => the native web
-```
-
 ### Creating and managing keys
 
-For signing and verifying you will need a PEM encoded private and public key pair. You can use the `openssl` command-line tool to create both of them.
+For signing and verifying as well as encrypting and decrypting using asymmetric encryption algorithms you will need a PEM encoded private and public key pair. You can use the `openssl` command-line tool to create both of them.
 
     $ openssl genrsa -out key.pem 2048
     $ openssl rsa -in key.pem -pubout > key.pub
@@ -75,6 +53,38 @@ To load a public key from a `.pub` file call the `readPublicKey` function and sp
 crypto2.readPublicKey('key.pub', function (publicKey) {
   // ...
 });
+```
+
+### Encrypting and decrypting
+
+If you want crypto2 to select an encryption algorithm for you, call the `encrypt` and `decrypt` functions without any specific algorithm. This defaults to the AES 256 CBC encryption algorithm.
+
+```javascript
+var encrypted = crypto2.encrypt('the native web', password);
+// => 6c9ae06e9cd536bf38d0f551f8150065
+
+var decrypted = crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', password);
+// => the native web
+```
+
+To encrypt and decrypt using the AES 256 CBC encryption algorithm call the `encrypt.aes256cbc` and `decrypt.aes256cbc` functions.
+
+```javascript
+var encrypted = crypto2.encrypt.aes256cbc('the native web', password);
+// => 6c9ae06e9cd536bf38d0f551f8150065
+
+var decrypted = crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', password);
+// => the native web
+```
+
+To encrypt and decrypt using the asymmetric RSA encryption algorithm call the `encrypt.rsa` and `decrypt.rsa` functions.
+
+```javascript
+var encrypted = crypto2.encrypt.rsa('the native web', publicKey);
+// => [...]
+
+var decrypted = crypto2.decrypt.aes256cbc(encrypted, privateKey);
+// => the native web
 ```
 
 ### Signing and verifying
