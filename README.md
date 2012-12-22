@@ -38,7 +38,15 @@ var decrypted = crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 's
 
 ### Signing and verifying
 
-...
+For signing and verifying you will need a PEM encoded private and public key pair. See [How to create .pem files for https web server](http://stackoverflow.com/questions/12871565/how-to-create-pem-files-for-https-web-server) on how to create them.
+
+To load a key from a `.pem` file call the `readKey` function and specify the name of the key file.
+
+```javascript
+crypto2.readKey('key.pem', function (key) {
+  // ...
+});
+```
 
 ### Hashing
 
