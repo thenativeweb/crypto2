@@ -6,6 +6,16 @@ var assert = require('node-assertthat'),
 var crypto2 = require('../lib/crypto2');
 
 suite('crypto2', function () {
+  suite('createKeyPair', function () {
+    test('returns a new key pair.', function (done) {
+      crypto2.createKeyPair(function (privateKey, publicKey) {
+        assert.that(ursa.isPrivateKey(ursa.coerceKey(privateKey)), is.equalTo(true));        
+        assert.that(ursa.isPublicKey(ursa.coerceKey(publicKey)), is.equalTo(true));        
+        done();
+      });
+    });
+  });
+
   suite('readPrivateKey', function () {
     test('reads a private key from a .pem file.', function (done) {
       crypto2.readPrivateKey('./test/key.pem', function (key) {
