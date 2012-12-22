@@ -6,6 +6,15 @@ var assert = require('node-assertthat'),
 var crypto2 = require('../lib/crypto2');
 
 suite('crypto2', function () {
+  suite('createPassword', function () {
+    test('returns a new password.', function (done) {
+      crypto2.createPassword(function (password) {
+        assert.that(password.length, is.equalTo(32));
+        done();
+      });
+    });
+  });
+
   suite('createKeyPair', function () {
     test('returns a new key pair.', function (done) {
       crypto2.createKeyPair(function (privateKey, publicKey) {
