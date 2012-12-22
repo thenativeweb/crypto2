@@ -48,6 +48,26 @@ crypto2.readKey('key.pem', function (key) {
 });
 ```
 
+If you want crypto2 to select a signing algorithm for you, call the `sign` and `verify` functions without any specific algorithm. This defaults to the RSA SHA256 signing algorithm.
+
+```javascript
+var signature = crypto2.sign('the native web', privateKey);
+// => [...]
+
+var isSignatureValid = crypto2.verify('the native web', publicKey, '[...]');
+// => true
+```
+
+To sign and verify using the RSA SHA256 signing algorithm call the `sign.rsasha256` and `verify.rsasha256` functions.
+
+```javascript
+var signature = crypto2.sign.rsasha256('the native web', privateKey);
+// => [...]
+
+var isSignatureValid = crypto2.verify.rsasha256('the native web', publicKey, '[...]');
+// => true
+```
+
 ### Hashing
 
 If you want crypto2 to select a hash algorithm for you, call the `hash` function without any specific algorithm. This defaults to the SHA1 hash algorithm.
