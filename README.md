@@ -38,17 +38,28 @@ var decrypted = crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 's
 
 ### Signing and verifying
 
-For signing and verifying you will need a PEM encoded private and public key pair. See [How to create .pem files for https web server](http://stackoverflow.com/questions/12871565/how-to-create-pem-files-for-https-web-server) on how to create them.
+For signing and verifying you will need a PEM encoded private and public key pair. Use the `openssl` command-line tool to create both of them.
 
-To load a key from a `.pem` file call the `readKey` function and specify the name of the key file.
+```bash
+openssl genrsa -out key.pem 2048
+openssl rsa -in key.pem -pubout > key.pub
+```
+
+To load a private key from a `.pem` file call the `readPrivateKey` function and specify the name of the key file.
 
 ```javascript
-crypto2.readKey('key.pem', function (key) {
+crypto2.readPrivateKey('key.pem', function (key) {
   // ...
 });
 ```
 
-*NOTE: Please note that you only need to specify a private key file as it contains both the private and the public key.*
+To load a public key from a `.pub` file call the `readPublicKey` function and specify the name of the key file.
+
+```javascript
+crypto2.readPublicKey('key.pub', function (key) {
+  // ...
+});
+```
 
 If you want crypto2 to select a signing algorithm for you, call the `sign` and `verify` functions without any specific algorithm. This defaults to the SHA256 signing algorithm.
 
