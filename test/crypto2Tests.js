@@ -18,8 +18,8 @@ suite('crypto2', function () {
   suite('createKeyPair', function () {
     test('returns a new key pair.', function (done) {
       crypto2.createKeyPair(function (privateKey, publicKey) {
-        assert.that(ursa.isPrivateKey(ursa.coerceKey(privateKey)), is.equalTo(true));        
-        assert.that(ursa.isPublicKey(ursa.coerceKey(publicKey)), is.equalTo(true));        
+        assert.that(ursa.isPrivateKey(ursa.coerceKey(privateKey)), is.true());        
+        assert.that(ursa.isPublicKey(ursa.coerceKey(publicKey)), is.true());        
         done();
       });
     });
@@ -28,7 +28,7 @@ suite('crypto2', function () {
   suite('readPrivateKey', function () {
     test('reads a private key from a .pem file.', function (done) {
       crypto2.readPrivateKey('./test/key.pem', function (key) {
-        assert.that(ursa.isPrivateKey(key), is.equalTo(true));
+        assert.that(ursa.isPrivateKey(key), is.true());
         done();
       });
     });
@@ -37,7 +37,7 @@ suite('crypto2', function () {
   suite('readPublicKey', function () {
     test('reads a public key from a .pub file.', function (done) {
       crypto2.readPublicKey('./test/key.pub', function (key) {
-        assert.that(ursa.isPublicKey(key), is.equalTo(true));
+        assert.that(ursa.isPublicKey(key), is.true());
         done();
       });
     });
