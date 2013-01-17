@@ -146,4 +146,16 @@ suite('crypto2', function () {
       assert.that(crypto2.hash('the native web'), is.equalTo(crypto2.hash.sha1('the native web')));
     });
   });
+
+  suite('hmac', function () {
+    suite('sha1', function () {
+      test('calculates the SHA1-based HMAC value.', function () {
+        assert.that(crypto2.hmac.sha1('the native web', 'secret'), is.equalTo('c9a6cdb2d350820e76a14f4f9a6392990ce1982a'));
+      });
+    });
+
+    test('defaults to SHA1.', function () {
+      assert.that(crypto2.hmac('the native web', 'secret'), is.equalTo(crypto2.hmac.sha1('the native web', 'secret')));
+    });
+  });
 });

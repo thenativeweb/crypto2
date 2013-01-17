@@ -9,7 +9,7 @@
     "ursa": "0.8.0"
   },
   "devDependencies": {
-    "node-assertthat": "0.0.14"
+    "node-assertthat": "0.0.16"
   },
   "scripts": {
     "test": "mocha"

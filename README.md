@@ -132,6 +132,22 @@ var hash = crypto2.hash.sha1('the native web');
 // => cc762e69089ee2393b061ab26a005319bda94744
 ```
 
+### Message authentication
+
+If you want crypto2 to select a HMAC algorithm for you, call the `hmac` function without any specific algorithm. This defaults to the SHA1 hash algorithm.
+
+```javascript
+var hmac = crypto2.hmac('the native web', 'secret');
+// => c9a6cdb2d350820e76a14f4f9a6392990ce1982a
+```
+
+To calculate the SHA1-based HMAC value of a string call the `hmac.sha1` function.
+
+```javascript
+var hmac = crypto2.hmac.sha1('the native web', 'secret');
+// => c9a6cdb2d350820e76a14f4f9a6392990ce1982a
+```
+
 ## Running the tests
 
 crypto2 has been developed using TDD. To run the tests, go to the folder where you have installed crypto2 to and run `npm test`. You need to have [mocha](https://github.com/visionmedia/mocha) installed.
