@@ -9,6 +9,9 @@
     "ursa": "0.8.0"
   },
   "devDependencies": {
+    "grunt": "0.4.0",
+    "grunt-contrib-jshint": "0.1.1",
+    "grunt-mocha-test": "0.2.0",
     "node-assertthat": "0.0.16"
   },
   "scripts": {

@@ -18,8 +18,8 @@ suite('crypto2', function () {
   suite('createKeyPair', function () {
     test('returns a new key pair.', function (done) {
       crypto2.createKeyPair(function (privateKey, publicKey) {
-        assert.that(ursa.isPrivateKey(ursa.coerceKey(privateKey)), is.true());        
-        assert.that(ursa.isPublicKey(ursa.coerceKey(publicKey)), is.true());        
+        assert.that(ursa.isPrivateKey(ursa.coerceKey(privateKey)), is.true());
+        assert.that(ursa.isPublicKey(ursa.coerceKey(publicKey)), is.true());
         done();
       });
     });
