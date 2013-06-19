@@ -45,8 +45,12 @@ suite('crypto2', function () {
 
   suite('encrypt', function () {
     suite('aes256cbc', function () {
-      test('encrypts using the AES 256 CBC encryption standard.', function () {
-        assert.that(crypto2.encrypt.aes256cbc('the native web', 'secret'), is.equalTo('6c9ae06e9cd536bf38d0f551f8150065'));
+      test('encrypts using the AES 256 CBC encryption standard.', function (done) {
+        crypto2.encrypt.aes256cbc('the native web', 'secret', function (err, encryptedText) {
+          assert.that(err, is.null());
+          assert.that(encryptedText, is.equalTo('6c9ae06e9cd536bf38d0f551f8150065'));
+          done();
+        });
       });
     });
 
@@ -63,15 +67,26 @@ suite('crypto2', function () {
       });
     });
 
-    test('defaults to AES 256 CBC.', function () {
-      assert.that(crypto2.encrypt('the native web', 'secret'), is.equalTo(crypto2.encrypt.aes256cbc('the native web', 'secret')));
+    test('defaults to AES 256 CBC.', function (done) {
+      crypto2.encrypt('the native web', 'secret', function (err, actualEncryptedText) {
+        assert.that(err, is.null());
+        crypto2.encrypt.aes256cbc('the native web', 'secret', function (err, expectecEncryptedText) {
+          assert.that(err, is.null());
+          assert.that(actualEncryptedText, is.equalTo(expectecEncryptedText));
+          done();
+        });
+      });
     });
   });
 
   suite('decrypt', function () {
     suite('aes256cbc', function () {
-      test('decrypts using the AES 256 CBC encryption standard.', function () {
-        assert.that(crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 'secret'), is.equalTo('the native web'));
+      test('decrypts using the AES 256 CBC encryption standard.', function (done) {
+        crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 'secret', function (err, decryptedText) {
+          assert.that(err, is.null());
+          assert.that(decryptedText, is.equalTo('the native web'));
+          done();
+        });
       });
     });
 
@@ -88,8 +103,15 @@ suite('crypto2', function () {
       });
     });
 
-    test('defaults to AES 256 CBC.', function () {
-      assert.that(crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', 'secret'), is.equalTo(crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 'secret')));
+    test('defaults to AES 256 CBC.', function (done) {
+      crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', 'secret', function (err, actualDecryptedText) {
+        assert.that(err, is.null());
+        crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 'secret', function (err, expectedDecryptedText) {
+          assert.that(err, is.null());
+          assert.that(actualDecryptedText, is.equalTo(expectedDecryptedText));
+          done();
+        });
+      });
     });
   });
 
@@ -131,31 +153,57 @@ suite('crypto2', function () {
 
   suite('hash', function () {
     suite('md5', function () {
-      test('calculates the MD5 hash value.', function () {
-        assert.that(crypto2.hash.md5('the native web'), is.equalTo('4e8ba2e64931c64b63f4dc8d90e1dc7c'));
+      test('calculates the MD5 hash value.', function (done) {
+        crypto2.hash.md5('the native web', function (err, hashedText) {
+          assert.that(err, is.null());
+          assert.that(hashedText, is.equalTo('4e8ba2e64931c64b63f4dc8d90e1dc7c'));
+          done();
+        });
       });
     });
 
     suite('sha1', function () {
-      test('calculates the SHA1 hash value.', function () {
-        assert.that(crypto2.hash.sha1('the native web'), is.equalTo('cc762e69089ee2393b061ab26a005319bda94744'));
+      test('calculates the SHA1 hash value.', function (done) {
+        crypto2.hash.sha1('the native web', function (err, hashedText) {
+          assert.that(err, is.null());
+          assert.that(hashedText, is.equalTo('cc762e69089ee2393b061ab26a005319bda94744'));
+          done();
+        });
       });
     });
 
-    test('defaults to SHA1.', function () {
-      assert.that(crypto2.hash('the native web'), is.equalTo(crypto2.hash.sha1('the native web')));
+    test('defaults to SHA1.', function (done) {
+      crypto2.hash('the native web', function (err, actualHashedText) {
+        assert.that(err, is.null());
+        crypto2.hash.sha1('the native web', function (err, expectedHashedText) {
+          assert.that(err, is.null());
+          assert.that(actualHashedText, is.equalTo(expectedHashedText));
+          done();
+        });
+      });
     });
   });
 
   suite('hmac', function () {
     suite('sha1', function () {
-      test('calculates the SHA1-based HMAC value.', function () {
-        assert.that(crypto2.hmac.sha1('the native web', 'secret'), is.equalTo('c9a6cdb2d350820e76a14f4f9a6392990ce1982a'));
+      test('calculates the SHA1-based HMAC value.', function (done) {
+        crypto2.hmac.sha1('the native web', 'secret', function (err, hmacedText) {
+          assert.that(err, is.null());
+          assert.that(hmacedText, is.equalTo('c9a6cdb2d350820e76a14f4f9a6392990ce1982a'));
+          done();
+        });
       });
     });
 
-    test('defaults to SHA1.', function () {
-      assert.that(crypto2.hmac('the native web', 'secret'), is.equalTo(crypto2.hmac.sha1('the native web', 'secret')));
+    test('defaults to SHA1.', function (done) {
+      crypto2.hmac('the native web', 'secret', function (err, actualHmacedText) {
+        assert.that(err, is.null());
+        crypto2.hmac.sha1('the native web', 'secret', function (err, expectedHmacedText) {
+          assert.that(err, is.null());
+          assert.that(actualHmacedText, is.equalTo(expectedHmacedText));
+          done();
+        });
+      });
     });
   });
 });
