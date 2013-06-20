@@ -8,7 +8,8 @@ var crypto2 = require('../lib/crypto2');
 suite('crypto2', function () {
   suite('createPassword', function () {
     test('returns a new random password with 32 bytes length.', function (done) {
-      crypto2.createPassword(function (password) {
+      crypto2.createPassword(function (err, password) {
+        assert.that(err, is.null());
         assert.that(password.length, is.equalTo(32));
         done();
       });
@@ -17,7 +18,8 @@ suite('crypto2', function () {
 
   suite('createKeyPair', function () {
     test('returns a new key pair.', function (done) {
-      crypto2.createKeyPair(function (privateKey, publicKey) {
+      crypto2.createKeyPair(function (err, privateKey, publicKey) {
+        assert.that(err, is.null());
         assert.that(ursa.isPrivateKey(ursa.coerceKey(privateKey)), is.true());
         assert.that(ursa.isPublicKey(ursa.coerceKey(publicKey)), is.true());
         done();
@@ -27,7 +29,8 @@ suite('crypto2', function () {
 
   suite('readPrivateKey', function () {
     test('reads a private key from a .pem file.', function (done) {
-      crypto2.readPrivateKey('./test/key.pem', function (key) {
+      crypto2.readPrivateKey('./test/key.pem', function (err, key) {
+        assert.that(err, is.null());
         assert.that(ursa.isPrivateKey(key), is.true());
         done();
       });
@@ -36,7 +39,8 @@ suite('crypto2', function () {
 
   suite('readPublicKey', function () {
     test('reads a public key from a .pub file.', function (done) {
-      crypto2.readPublicKey('./test/key.pub', function (key) {
+      crypto2.readPublicKey('./test/key.pub', function (err, key) {
+        assert.that(err, is.null());
         assert.that(ursa.isPublicKey(key), is.true());
         done();
       });
@@ -56,12 +60,18 @@ suite('crypto2', function () {
 
     suite('rsa', function () {
       test('encrypts using the RSA encryption standard.', function (done) {
-        crypto2.readPublicKey('./test/key.pub', function (publicKey) {
-          var encrypted = crypto2.encrypt.rsa('the native web', publicKey);
-          crypto2.readPrivateKey('./test/key.pem', function (privateKey) {
-            var decrypted = crypto2.decrypt.rsa(encrypted, privateKey);
-            assert.that(decrypted, is.equalTo('the native web'));
-            done();
+        crypto2.readPublicKey('./test/key.pub', function (err, publicKey) {
+          assert.that(err, is.null());
+          crypto2.encrypt.rsa('the native web', publicKey, function (err, encrypted) {
+            assert.that(err, is.null());
+            crypto2.readPrivateKey('./test/key.pem', function (err, privateKey) {
+              assert.that(err, is.null());
+              crypto2.decrypt.rsa(encrypted, privateKey, function (err, decrypted) {
+                assert.that(err, is.null());
+                assert.that(decrypted, is.equalTo('the native web'));
+                done();
+              });
+            });
           });
         });
       });
@@ -92,12 +102,18 @@ suite('crypto2', function () {
 
     suite('rsa', function () {
       test('decrypts using the RSA encryption standard.', function (done) {
-        crypto2.readPublicKey('./test/key.pub', function (publicKey) {
-          var encrypted = crypto2.encrypt.rsa('the native web', publicKey);
-          crypto2.readPrivateKey('./test/key.pem', function (privateKey) {
-            var decrypted = crypto2.decrypt.rsa(encrypted, privateKey);
-            assert.that(decrypted, is.equalTo('the native web'));
-            done();
+        crypto2.readPublicKey('./test/key.pub', function (err, publicKey) {
+          assert.that(err, is.null());
+          crypto2.encrypt.rsa('the native web', publicKey, function (err, encrypted) {
+            assert.that(err, is.null());
+            crypto2.readPrivateKey('./test/key.pem', function (err, privateKey) {
+              assert.that(err, is.null());
+              crypto2.decrypt.rsa(encrypted, privateKey, function (err, decrypted) {
+                assert.that(err, is.null());
+                assert.that(decrypted, is.equalTo('the native web'));
+                done();
+              });
+            });
           });
         });
       });
@@ -118,17 +134,28 @@ suite('crypto2', function () {
   suite('sign', function () {
     suite('sha256', function () {
       test('signs using the SHA256 signing standard.', function (done) {
-        crypto2.readPrivateKey('./test/key.pem', function (privateKey) {
-          assert.that(crypto2.sign.sha256('the native web', privateKey), is.equalTo('6c20e04d7dca6eeff43a7a618776d91d121204c698426b6d5f809d631be8d09ca02643af36f324008afc0d4e1cf0ba137c976afaa74bd559c1e1201694312ad98ae17a66de04812b1efe68c5b1c057f719ff111a938980e11292933074101fd5141d494c13484f45b1f710a2c041ae4ada27667ac3855492b49d77a0a64e6c406925e68b7ed55298ef4387e2884f3a021c6f76b4146607f32d657d070e78e86d43d068b17cca9873a666f572b0d078525446b7dd1ef30ae20b91161a5a9bab7123b56c35fac7d3ce9b749c524c62b5b3eb8e76445c9dfd80370daed8d53a4efdab0acb14a4875758b708b2da75a070db84ebd4bd4f3a073424df214aaf0b9914'));
-          done();
+        crypto2.readPrivateKey('./test/key.pem', function (err, privateKey) {
+          assert.that(err, is.null());
+          crypto2.sign.sha256('the native web', privateKey, function (err, signature) {
+            assert.that(err, is.null());
+            assert.that(signature, is.equalTo('6c20e04d7dca6eeff43a7a618776d91d121204c698426b6d5f809d631be8d09ca02643af36f324008afc0d4e1cf0ba137c976afaa74bd559c1e1201694312ad98ae17a66de04812b1efe68c5b1c057f719ff111a938980e11292933074101fd5141d494c13484f45b1f710a2c041ae4ada27667ac3855492b49d77a0a64e6c406925e68b7ed55298ef4387e2884f3a021c6f76b4146607f32d657d070e78e86d43d068b17cca9873a666f572b0d078525446b7dd1ef30ae20b91161a5a9bab7123b56c35fac7d3ce9b749c524c62b5b3eb8e76445c9dfd80370daed8d53a4efdab0acb14a4875758b708b2da75a070db84ebd4bd4f3a073424df214aaf0b9914'));
+            done();
+          });
         });
       });
     });
 
     test('defaults to SHA256.', function (done) {
-      crypto2.readPrivateKey('./test/key.pem', function (privateKey) {
-        assert.that(crypto2.sign('the native web', privateKey), is.equalTo(crypto2.sign.sha256('the native web', privateKey)));
-        done();
+      crypto2.readPrivateKey('./test/key.pem', function (err, privateKey) {
+        assert.that(err, is.null());
+        crypto2.sign('the native web', privateKey, function (err, actualSignature) {
+          assert.that(err, is.null());
+          crypto2.sign.sha256('the native web', privateKey, function (err, expectedSignature) {
+            assert.that(err, is.null());
+            assert.that(actualSignature, is.equalTo(expectedSignature));
+            done();
+          });
+        });
       });
     });
   });
@@ -136,17 +163,28 @@ suite('crypto2', function () {
   suite('verify', function () {
     suite('sha256', function () {
       test('verifies using the SHA256 signing standard.', function (done) {
-        crypto2.readPublicKey('./test/key.pub', function (publicKey) {
-          assert.that(crypto2.verify.sha256('the native web', publicKey, '6c20e04d7dca6eeff43a7a618776d91d121204c698426b6d5f809d631be8d09ca02643af36f324008afc0d4e1cf0ba137c976afaa74bd559c1e1201694312ad98ae17a66de04812b1efe68c5b1c057f719ff111a938980e11292933074101fd5141d494c13484f45b1f710a2c041ae4ada27667ac3855492b49d77a0a64e6c406925e68b7ed55298ef4387e2884f3a021c6f76b4146607f32d657d070e78e86d43d068b17cca9873a666f572b0d078525446b7dd1ef30ae20b91161a5a9bab7123b56c35fac7d3ce9b749c524c62b5b3eb8e76445c9dfd80370daed8d53a4efdab0acb14a4875758b708b2da75a070db84ebd4bd4f3a073424df214aaf0b9914'), is.equalTo(true));
-          done();
+        crypto2.readPublicKey('./test/key.pub', function (err, publicKey) {
+          assert.that(err, is.null());
+          crypto2.verify.sha256('the native web', publicKey, '6c20e04d7dca6eeff43a7a618776d91d121204c698426b6d5f809d631be8d09ca02643af36f324008afc0d4e1cf0ba137c976afaa74bd559c1e1201694312ad98ae17a66de04812b1efe68c5b1c057f719ff111a938980e11292933074101fd5141d494c13484f45b1f710a2c041ae4ada27667ac3855492b49d77a0a64e6c406925e68b7ed55298ef4387e2884f3a021c6f76b4146607f32d657d070e78e86d43d068b17cca9873a666f572b0d078525446b7dd1ef30ae20b91161a5a9bab7123b56c35fac7d3ce9b749c524c62b5b3eb8e76445c9dfd80370daed8d53a4efdab0acb14a4875758b708b2da75a070db84ebd4bd4f3a073424df214aaf0b9914', function (err, isSignatureValid) {
+            assert.that(err, is.null());
+            assert.that(isSignatureValid, is.equalTo(true));
+            done();
+          });
         });
       });
     });
 
     test('defaults to SHA256.', function (done) {
-      crypto2.readPublicKey('./test/key.pub', function (publicKey) {
-        assert.that(crypto2.verify('the native web', publicKey, '6c20e04d7dca6eeff43a7a618776d91d121204c698426b6d5f809d631be8d09ca02643af36f324008afc0d4e1cf0ba137c976afaa74bd559c1e1201694312ad98ae17a66de04812b1efe68c5b1c057f719ff111a938980e11292933074101fd5141d494c13484f45b1f710a2c041ae4ada27667ac3855492b49d77a0a64e6c406925e68b7ed55298ef4387e2884f3a021c6f76b4146607f32d657d070e78e86d43d068b17cca9873a666f572b0d078525446b7dd1ef30ae20b91161a5a9bab7123b56c35fac7d3ce9b749c524c62b5b3eb8e76445c9dfd80370daed8d53a4efdab0acb14a4875758b708b2da75a070db84ebd4bd4f3a073424df214aaf0b9914'), is.equalTo(crypto2.verify.sha256('the native web', publicKey, '6c20e04d7dca6eeff43a7a618776d91d121204c698426b6d5f809d631be8d09ca02643af36f324008afc0d4e1cf0ba137c976afaa74bd559c1e1201694312ad98ae17a66de04812b1efe68c5b1c057f719ff111a938980e11292933074101fd5141d494c13484f45b1f710a2c041ae4ada27667ac3855492b49d77a0a64e6c406925e68b7ed55298ef4387e2884f3a021c6f76b4146607f32d657d070e78e86d43d068b17cca9873a666f572b0d078525446b7dd1ef30ae20b91161a5a9bab7123b56c35fac7d3ce9b749c524c62b5b3eb8e76445c9dfd80370daed8d53a4efdab0acb14a4875758b708b2da75a070db84ebd4bd4f3a073424df214aaf0b9914')));
-        done();
+      crypto2.readPublicKey('./test/key.pub', function (err, publicKey) {
+        assert.that(err, is.null());
+        crypto2.verify('the native web', publicKey, '6c20e04d7dca6eeff43a7a618776d91d121204c698426b6d5f809d631be8d09ca02643af36f324008afc0d4e1cf0ba137c976afaa74bd559c1e1201694312ad98ae17a66de04812b1efe68c5b1c057f719ff111a938980e11292933074101fd5141d494c13484f45b1f710a2c041ae4ada27667ac3855492b49d77a0a64e6c406925e68b7ed55298ef4387e2884f3a021c6f76b4146607f32d657d070e78e86d43d068b17cca9873a666f572b0d078525446b7dd1ef30ae20b91161a5a9bab7123b56c35fac7d3ce9b749c524c62b5b3eb8e76445c9dfd80370daed8d53a4efdab0acb14a4875758b708b2da75a070db84ebd4bd4f3a073424df214aaf0b9914', function (err, actualIsSignatureValid) {
+          assert.that(err, is.null());
+          crypto2.verify.sha256('the native web', publicKey, '6c20e04d7dca6eeff43a7a618776d91d121204c698426b6d5f809d631be8d09ca02643af36f324008afc0d4e1cf0ba137c976afaa74bd559c1e1201694312ad98ae17a66de04812b1efe68c5b1c057f719ff111a938980e11292933074101fd5141d494c13484f45b1f710a2c041ae4ada27667ac3855492b49d77a0a64e6c406925e68b7ed55298ef4387e2884f3a021c6f76b4146607f32d657d070e78e86d43d068b17cca9873a666f572b0d078525446b7dd1ef30ae20b91161a5a9bab7123b56c35fac7d3ce9b749c524c62b5b3eb8e76445c9dfd80370daed8d53a4efdab0acb14a4875758b708b2da75a070db84ebd4bd4f3a073424df214aaf0b9914', function (err, expectedIsSignatureValid) {
+            assert.that(err, is.null());
+            assert.that(actualIsSignatureValid, is.equalTo(expectedIsSignatureValid));
+            done();
+          });
+        });
       });
     });
   });
