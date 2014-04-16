@@ -12,12 +12,8 @@
     "grunt": "0.4.4",
     "grunt-contrib-jshint": "0.10.0",
     "grunt-contrib-watch": "0.6.1",
-    "grunt-mocha-test": "0.10.2",
-    "node-assertthat": "0.0.21",
-    "tourism": "git+ssh://git@github.com:thenativeweb/tourism.git"
-  },
-  "scripts": {
-    "test": "mocha"
+    "grunt-mocha-test": "0.10.0",
+    "node-assertthat": "0.0.21"
   },
   "repository": {
     "type": "git",
