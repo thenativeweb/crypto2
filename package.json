@@ -1,6 +1,6 @@
 {
   "name": "crypto2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "crypto2 is a convenience wrapper around Node.js' crypto module.",
   "author": "Golo Roden <golo.roden@thenativeweb.io> (http://www.thenativeweb.io)",
   "main": "lib/crypto2.js",
