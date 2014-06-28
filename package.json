@@ -15,12 +15,12 @@
   "main": "lib/crypto2.js",
   "private": "true",
   "dependencies": {
-    "ursa": "0.8.0"
+    "node-rsa": "0.1.51"
   },
   "devDependencies": {
     "grunt": "0.4.5",
-    "node-assertthat": "0.2.0",
-    "tourism": "0.1.0"
+    "node-assertthat": "0.2.1",
+    "tourism": "0.3.1"
   },
   "repository": {
     "type": "git",

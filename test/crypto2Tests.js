@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('node-assertthat'),
-    ursa = require('ursa');
+    NodeRSA = require('node-rsa');
 
 var crypto2 = require('../lib/crypto2');
 
@@ -19,9 +19,8 @@ suite('crypto2', function () {
   suite('createKeyPair', function () {
     test('returns a new key pair.', function (done) {
       crypto2.createKeyPair(function (err, privateKey, publicKey) {
-        assert.that(err, is.null());
-        assert.that(ursa.isPrivateKey(ursa.coerceKey(privateKey)), is.true());
-        assert.that(ursa.isPublicKey(ursa.coerceKey(publicKey)), is.true());
+        assert.that(privateKey.indexOf('-----BEGIN RSA PRIVATE KEY-----'), is.equalTo(0));
+        assert.that(publicKey.indexOf('-----BEGIN PUBLIC KEY-----'), is.equalTo(0));
         done();
       });
     });
@@ -31,7 +30,7 @@ suite('crypto2', function () {
     test('reads a private key from a .pem file.', function (done) {
       crypto2.readPrivateKey('./test/key.pem', function (err, key) {
         assert.that(err, is.null());
-        assert.that(ursa.isPrivateKey(key), is.true());
+        assert.that(key.indexOf('-----BEGIN RSA PRIVATE KEY-----'), is.equalTo(0));
         done();
       });
     });
@@ -41,7 +40,7 @@ suite('crypto2', function () {
     test('reads a public key from a .pub file.', function (done) {
       crypto2.readPublicKey('./test/key.pub', function (err, key) {
         assert.that(err, is.null());
-        assert.that(ursa.isPublicKey(key), is.true());
+        assert.that(key.indexOf('-----BEGIN PUBLIC KEY-----'), is.equalTo(0));
         done();
       });
     });
