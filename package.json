@@ -1,6 +1,6 @@
 {
   "name": "crypto2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "crypto2 is a convenience wrapper around Node.js' crypto module.",
   "contributors": [
     {
