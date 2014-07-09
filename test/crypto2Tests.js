@@ -1,7 +1,6 @@
 'use strict';
 
-var assert = require('node-assertthat'),
-    NodeRSA = require('node-rsa');
+var assert = require('node-assertthat');
 
 var crypto2 = require('../lib/crypto2');
 
@@ -19,6 +18,7 @@ suite('crypto2', function () {
   suite('createKeyPair', function () {
     test('returns a new key pair.', function (done) {
       crypto2.createKeyPair(function (err, privateKey, publicKey) {
+        assert.that(err, is.null());
         assert.that(privateKey.indexOf('-----BEGIN RSA PRIVATE KEY-----'), is.equalTo(0));
         assert.that(publicKey.indexOf('-----BEGIN PUBLIC KEY-----'), is.equalTo(0));
         done();
