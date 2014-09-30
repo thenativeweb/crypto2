@@ -148,7 +148,7 @@ crypto2.hash.sha1('the native web', function (err, hash) {
 To calculate the SHA256 hash value of a string call the `hash.sha256` function.
 
 ```javascript
-crypto2.hash.sha1('the native web', function (err, hash) {
+crypto2.hash.sha256('the native web', function (err, hash) {
   // => 55a1f59420da66b2c4c87b565660054cff7c2aad5ebe5f56e04ae0f2a20f00a9
 });
 ```
