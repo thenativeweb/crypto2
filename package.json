@@ -13,14 +13,13 @@
     }
   ],
   "main": "lib/crypto2.js",
-  "private": "true",
   "dependencies": {
     "node-rsa": "0.1.53"
   },
   "devDependencies": {
     "grunt": "0.4.5",
-    "node-assertthat": "0.2.0",
-    "tourism": "0.5.0"
+    "node-assertthat": "0.2.1",
+    "tourism": "0.7.3"
   },
   "repository": {
     "type": "git",

@@ -4,11 +4,11 @@ crypto2 is a convenience wrapper around Node.js' crypto module.
 
 ## Installation
 
-At the moment, installation of this module must be made manually.
+    $ npm install crypto2
 
 ## Quick start
 
-The first thing you need to do is to integrate crypto2 into your application. For that add a reference to the `crypto2` module.
+First you need to integrate crypto2 with your application. For that add a reference to the `crypto2` module.
 
 ```javascript
 var crypto2 = require('crypto2');
@@ -28,8 +28,8 @@ crypto2.createPassword(function (err, password) {
 
 For signing and verifying as well as for encrypting and decrypting using asymmetric encryption algorithms you will need a PEM encoded private and public key pair. You can use the `openssl` command-line tool to create both of them.
 
-    $ openssl genrsa -out key.pem 2048
-    $ openssl rsa -in key.pem -pubout > key.pub
+    $ openssl genrsa -out privateKey.pem 2048
+    $ openssl rsa -in privateKey.pem -pubout > publicKey.pem
 
 Alternatively the key pair may be created programmatically by calling the `createKeyPair` function. This function creates a 2048-bit strong RSA key pair in PEM format.
 
@@ -121,11 +121,11 @@ crypto2.verify.sha256('the native web', publicKey, signature, function (err, isS
 
 ### Hashing
 
-If you want crypto2 to select a hash algorithm for you, call the `hash` function without any specific algorithm. This defaults to the SHA1 hash algorithm.
+If you want crypto2 to select a hash algorithm for you, call the `hash` function without any specific algorithm. This defaults to the SHA256 hash algorithm.
 
 ```javascript
 crypto2.hash('the native web', function (err, hash) {
-  // => cc762e69089ee2393b061ab26a005319bda94744
+  // => 55a1f59420da66b2c4c87b565660054cff7c2aad5ebe5f56e04ae0f2a20f00a9
 });
 ```
 
@@ -145,13 +145,21 @@ crypto2.hash.sha1('the native web', function (err, hash) {
 });
 ```
 
+To calculate the SHA256 hash value of a string call the `hash.sha256` function.
+
+```javascript
+crypto2.hash.sha1('the native web', function (err, hash) {
+  // => 55a1f59420da66b2c4c87b565660054cff7c2aad5ebe5f56e04ae0f2a20f00a9
+});
+```
+
 ### Message authentication
 
-If you want crypto2 to select a HMAC algorithm for you, call the `hmac` function without any specific algorithm. This defaults to the SHA1 hash algorithm.
+If you want crypto2 to select a HMAC algorithm for you, call the `hmac` function without any specific algorithm. This defaults to the SHA256 hash algorithm.
 
 ```javascript
 crypto2.hmac('the native web', 'secret', function (err, hmac) {
-  // => c9a6cdb2d350820e76a14f4f9a6392990ce1982a
+  // => 028e3043f9d848e346c8a93c4c29b091cb871065b6f5d1199f38e5a7360532f4
 });
 ```
 
@@ -160,6 +168,14 @@ To calculate the SHA1-based HMAC value of a string call the `hmac.sha1` function
 ```javascript
 crypto2.hmac.sha1('the native web', 'secret', function (err, hmac) {
   // => c9a6cdb2d350820e76a14f4f9a6392990ce1982a
+});
+```
+
+To calculate the SHA256-based HMAC value of a string call the `hmac.sha256` function.
+
+```javascript
+crypto2.hmac.sha256('the native web', 'secret', function (err, hmac) {
+  // => 028e3043f9d848e346c8a93c4c29b091cb871065b6f5d1199f38e5a7360532f4
 });
 ```
 
