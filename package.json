@@ -14,16 +14,22 @@
   ],
   "main": "lib/crypto2.js",
   "dependencies": {
-    "node-rsa": "0.2.13"
+    "node-rsa": "0.2.22"
   },
   "devDependencies": {
-    "assertthat": "0.4.2",
+    "assertthat": "0.5.3",
     "grunt": "0.4.5",
-    "tourism": "0.13.2"
+    "tourism": "0.15.0"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/thenativeweb/crypto2.git"
   },
+  "keywords": [
+    "cryptography",
+    "encryption",
+    "hash",
+    "security"
+  ],
   "license": "MIT"
 }

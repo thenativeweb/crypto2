@@ -2,6 +2,8 @@
 
 crypto2 is a convenience wrapper around Node.js' crypto module.
 
+[![Circle CI](https://circleci.com/gh/thenativeweb/crypto2.svg?style=svg)](https://circleci.com/gh/thenativeweb/crypto2)
+
 ## Installation
 
     $ npm install crypto2
