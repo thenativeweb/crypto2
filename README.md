@@ -80,7 +80,7 @@ crypto2.encrypt.aes256cbc('the native web', password, (err, encrypted) => {
   // => 6c9ae06e9cd536bf38d0f551f8150065
 });
 
-crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', password, (err=> , decrypted) {
+crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', password, (err, decrypted) => {
   // => the native web
 });
 ```
@@ -118,7 +118,7 @@ crypto2.sign.sha256('the native web', privateKey, (err, signature) => {
   // => [...]
 });
 
-crypto2.verify.sha256('the native web', publicKey, signature, (err=> , isSignatureValid) {
+crypto2.verify.sha256('the native web', publicKey, signature, (err, isSignatureValid) => {
   // => true
 });
 ```
