@@ -16,14 +16,14 @@
       "email": "joe@jb-labs.uk"
     }
   ],
-  "main": "lib/crypto2.js",
+  "main": "dist/crypto2.js",
   "dependencies": {
     "node-rsa": "0.4.2"
   },
   "devDependencies": {
-    "assertthat": "0.8.2",
-    "roboter": "0.13.15",
-    "roboter-server": "0.13.15"
+    "assertthat": "0.11.0",
+    "roboter": "0.15.4",
+    "roboter-server": "0.15.4"
   },
   "repository": {
     "type": "git",

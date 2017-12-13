@@ -99,6 +99,13 @@ suite('crypto2', () => {
           done();
         });
       });
+
+      test('throws an error when an invalid string is given.', done => {
+        crypto2.decrypt.aes256cbc('this-is-not-encrypted', 'secret', err => {
+          assert.that(err.message).is.equalTo('Bad input string');
+          done();
+        });
+      });
     });
 
     suite('rsa', () => {
@@ -115,6 +122,16 @@ suite('crypto2', () => {
                 done();
               });
             });
+          });
+        });
+      });
+
+      test('throws an error when an invalid string is given.', done => {
+        crypto2.readPrivateKey('./test/units/privateKey.pem', (errReadPrivateKey, privateKey) => {
+          assert.that(errReadPrivateKey).is.null();
+          crypto2.decrypt.rsa('this-is-not-encrypted', privateKey, errDecrypt => {
+            assert.that(errDecrypt.message).is.equalTo('Error during decryption (probably incorrect key). Original error: Error: Incorrect data or key');
+            done();
           });
         });
       });
