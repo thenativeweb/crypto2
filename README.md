@@ -4,7 +4,7 @@ crypto2 is a convenience wrapper around Node.js' crypto module.
 
 ## Installation
 
-```bash
+```shell
 $ npm install crypto2
 ```
 
@@ -18,183 +18,158 @@ const crypto2 = require('crypto2');
 
 ### Creating passwords
 
-For encrypting and decrypting you will need a password. You can either use an existing one or you can create a new one by calling the `createPassword` function. This function creates passwords with 32 bytes (256 bits) length consisting of lowercase and uppercase letters and digits.
+For encrypting and decrypting you will need a password. You can either use an existing one or you can create a new one by calling the `createPassword` function. This function creates passwords with 32 bytes (256 bits) length consisting of lowercase and uppercase letters and digits:
 
 ```javascript
-crypto2.createPassword((err, password) => {
-  // ...
-});
+const password = await crypto2.createPassword();
 ```
 
 ### Creating and managing keys
 
-For signing and verifying as well as for encrypting and decrypting using asymmetric encryption algorithms you will need a PEM encoded private and public key pair. You can use the `openssl` command-line tool to create both of them.
+For signing and verifying as well as for encrypting and decrypting using asymmetric encryption algorithms you will need a PEM encoded private and public key pair. You can use the `openssl` command-line tool to create both of them:
 
-```bash
+```shell
 $ openssl genrsa -out privateKey.pem 2048
 $ openssl rsa -in privateKey.pem -pubout > publicKey.pem
 ```
 
-Alternatively the key pair may be created programmatically by calling the `createKeyPair` function. This function creates a 2048-bit strong RSA key pair in PEM format.
+Alternatively the key pair may be created programmatically by calling the `createKeyPair` function. This function creates a 2048-bit strong RSA key pair in PEM format:
 
 ```javascript
-crypto2.createKeyPair((err, privateKey, publicKey) => {
-  // ...
-});
+const { privateKey, publicKey } = await crypto2.createKeyPair();
 ```
 
-To load a private key from a `.pem` file call the `readPrivateKey` function and specify the name of the key file.
+To load a private key from a `.pem` file call the `readPrivateKey` function and specify the name of the key file:
 
 ```javascript
-crypto2.readPrivateKey('key.pem', (err, privateKey) => {
-  // ...
-});
+const privateKey = await crypto2.readPrivateKey('key.pem');
 ```
 
-To load a public key from a `.pub` file call the `readPublicKey` function and specify the name of the key file.
+To load a public key from a `.pub` file call the `readPublicKey` function and specify the name of the key file:
 
 ```javascript
-crypto2.readPublicKey('key.pub', (err, publicKey) => {
-  // ...
-});
+const publicKey = await crypto2.readPublicKey('key.pub');
 ```
 
 ### Encrypting and decrypting
 
-If you want crypto2 to select an encryption algorithm for you, call the `encrypt` and `decrypt` functions without any specific algorithm. This defaults to the AES 256 CBC encryption algorithm.
+If you want crypto2 to select an encryption algorithm for you, call the `encrypt` and `decrypt` functions without any specific algorithm. This defaults to the AES 256 CBC encryption algorithm:
 
 ```javascript
-crypto2.encrypt('the native web', password, (err, encrypted) => {
-  // => 6c9ae06e9cd536bf38d0f551f8150065
-});
+const encrypted = await crypto2.encrypt('the native web', password);
+// => 6c9ae06e9cd536bf38d0f551f8150065
 
-crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', password, (err, decrypted) => {
-  // => the native web
-});
+const decrypted = await crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', password);
+// => the native web
 ```
 
-To encrypt and decrypt using the AES 256 CBC encryption algorithm call the `encrypt.aes256cbc` and `decrypt.aes256cbc` functions.
+To encrypt and decrypt using the AES 256 CBC encryption algorithm call the `encrypt.aes256cbc` and `decrypt.aes256cbc` functions:
 
 ```javascript
-crypto2.encrypt.aes256cbc('the native web', password, (err, encrypted) => {
-  // => 6c9ae06e9cd536bf38d0f551f8150065
-});
+const encrypted = await crypto2.encrypt.aes256cbc('the native web', password);
+// => 6c9ae06e9cd536bf38d0f551f8150065
 
-crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', password, (err, decrypted) => {
-  // => the native web
-});
+const decrypted = await crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', password);
+// => the native web
 ```
 
-To encrypt and decrypt using the asymmetric RSA encryption algorithm call the `encrypt.rsa` and `decrypt.rsa` functions. Due to technical limitations of the RSA algorithm the text to be encrypted must not be longer than 215 bytes when using keys with 2048 bits.
+To encrypt and decrypt using the asymmetric RSA encryption algorithm call the `encrypt.rsa` and `decrypt.rsa` functions. Due to technical limitations of the RSA algorithm the text to be encrypted must not be longer than 215 bytes when using keys with 2048 bits:
 
 ```javascript
-crypto2.encrypt.rsa('the native web', publicKey, (err, encrypted) => {
-  // => [...]
-});
+const encrypted = await crypto2.encrypt.rsa('the native web', publicKey);
+// => [...]
 
-crypto2.decrypt.rsa(encrypted, privateKey, (err, decrypted) => {
-  // => the native web
-});
+const decrypted = await crypto2.decrypt.rsa(encrypted, privateKey);
+// => the native web
 ```
 
 ### Signing and verifying
 
-If you want crypto2 to select a signing algorithm for you, call the `sign` and `verify` functions without any specific algorithm. This defaults to the SHA256 signing algorithm.
+If you want crypto2 to select a signing algorithm for you, call the `sign` and `verify` functions without any specific algorithm. This defaults to the SHA256 signing algorithm:
 
 ```javascript
-crypto2.sign('the native web', privateKey, (err, signature) => {
-  // => [...]
-});
+const signature = await crypto2.sign('the native web', privateKey);
+// => [...]
 
-crypto2.verify('the native web', publicKey, signature, (err, isSignatureValid) => {
-  // => true
-});
+const isSignatureValid = await crypto2.verify('the native web', publicKey, signature);
+// => true
 ```
 
-To sign and verify using the SHA256 signing algorithm call the `sign.sha256` and `verify.sha256` functions.
+To sign and verify using the SHA256 signing algorithm call the `sign.sha256` and `verify.sha256` functions:
 
 ```javascript
-crypto2.sign.sha256('the native web', privateKey, (err, signature) => {
-  // => [...]
-});
+const signature = await crypto2.sign.sha256('the native web', privateKey);
+// => [...]
 
-crypto2.verify.sha256('the native web', publicKey, signature, (err, isSignatureValid) => {
-  // => true
-});
+const isSignatureValid = await crypto2.verify.sha256('the native web', publicKey, signature);
+// => true
 ```
 
 ### Hashing
 
-If you want crypto2 to select a hash algorithm for you, call the `hash` function without any specific algorithm. This defaults to the SHA256 hash algorithm.
+If you want crypto2 to select a hash algorithm for you, call the `hash` function without any specific algorithm. This defaults to the SHA256 hash algorithm:
 
 ```javascript
-crypto2.hash('the native web', (err, hash) => {
-  // => 55a1f59420da66b2c4c87b565660054cff7c2aad5ebe5f56e04ae0f2a20f00a9
-});
+const hash = await crypto2.hash('the native web');
+// => 55a1f59420da66b2c4c87b565660054cff7c2aad5ebe5f56e04ae0f2a20f00a9
 ```
 
-To calculate the MD5 hash value of a string call the `hash.md5` function.
+To calculate the MD5 hash value of a string call the `hash.md5` function:
 
 ```javascript
-crypto2.hash.md5('the native web', (err, hash) => {
-  // => 4e8ba2e64931c64b63f4dc8d90e1dc7c
-});
+const hash = await crypto2.hash.md5('the native web');
+// => 4e8ba2e64931c64b63f4dc8d90e1dc7c
 ```
 
-To calculate the SHA1 hash value of a string call the `hash.sha1` function.
+To calculate the SHA1 hash value of a string call the `hash.sha1` function:
 
 ```javascript
-crypto2.hash.sha1('the native web', (err, hash) => {
-  // => cc762e69089ee2393b061ab26a005319bda94744
-});
+const hash = await crypto2.hash.sha1('the native web');
+// => cc762e69089ee2393b061ab26a005319bda94744
 ```
 
-To calculate the SHA256 hash value of a string call the `hash.sha256` function.
+To calculate the SHA256 hash value of a string call the `hash.sha256` function:
 
 ```javascript
-crypto2.hash.sha256('the native web', (err, hash) => {
-  // => 55a1f59420da66b2c4c87b565660054cff7c2aad5ebe5f56e04ae0f2a20f00a9
-});
+const hash = await crypto2.hash.sha256('the native web');
+// => 55a1f59420da66b2c4c87b565660054cff7c2aad5ebe5f56e04ae0f2a20f00a9
 ```
 
 ### Message authentication
 
-If you want crypto2 to select a HMAC algorithm for you, call the `hmac` function without any specific algorithm. This defaults to the SHA256 hash algorithm.
+If you want crypto2 to select a HMAC algorithm for you, call the `hmac` function without any specific algorithm. This defaults to the SHA256 hash algorithm:
 
 ```javascript
-crypto2.hmac('the native web', 'secret', (err, hmac) => {
-  // => 028e3043f9d848e346c8a93c4c29b091cb871065b6f5d1199f38e5a7360532f4
-});
+const hmac = await crypto2.hmac('the native web', 'secret');
+// => 028e3043f9d848e346c8a93c4c29b091cb871065b6f5d1199f38e5a7360532f4
 ```
 
-To calculate the SHA1-based HMAC value of a string call the `hmac.sha1` function.
+To calculate the SHA1-based HMAC value of a string call the `hmac.sha1` function:
 
 ```javascript
-crypto2.hmac.sha1('the native web', 'secret', (err, hmac) => {
-  // => c9a6cdb2d350820e76a14f4f9a6392990ce1982a
-});
+const hmac = await crypto2.hmac.sha1('the native web', 'secret');
+// => c9a6cdb2d350820e76a14f4f9a6392990ce1982a
 ```
 
-To calculate the SHA256-based HMAC value of a string call the `hmac.sha256` function.
+To calculate the SHA256-based HMAC value of a string call the `hmac.sha256` function:
 
 ```javascript
-crypto2.hmac.sha256('the native web', 'secret', (err, hmac) => {
-  // => 028e3043f9d848e346c8a93c4c29b091cb871065b6f5d1199f38e5a7360532f4
-});
+const hmac = await crypto2.hmac.sha256('the native web', 'secret');
+// => 028e3043f9d848e346c8a93c4c29b091cb871065b6f5d1199f38e5a7360532f4
 ```
 
 ## Running the build
 
 To build this module use [roboter](https://www.npmjs.com/package/roboter).
 
-```bash
+```shell
 $ bot
 ```
 
 ## License
 
 The MIT License (MIT)
-Copyright (c) 2013-2017 the native web.
+Copyright (c) 2013-2018 the native web.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
