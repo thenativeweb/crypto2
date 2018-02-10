@@ -18,6 +18,7 @@
   ],
   "main": "dist/crypto2.js",
   "dependencies": {
+    "babel-polyfill": "6.26.0",
     "node-rsa": "0.4.2",
     "util.promisify": "1.0.0"
   },
