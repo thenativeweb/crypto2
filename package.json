@@ -18,14 +18,14 @@
   ],
   "main": "dist/crypto2.js",
   "dependencies": {
-    "babel-polyfill": "6.26.0",
+    "babel-runtime": "6.26.0",
     "node-rsa": "0.4.2",
     "util.promisify": "1.0.0"
   },
   "devDependencies": {
     "assertthat": "1.0.0",
-    "roboter": "0.15.6",
-    "roboter-server": "0.15.6"
+    "roboter": "0.16.0",
+    "roboter-server": "0.16.0"
   },
   "repository": {
     "type": "git",
