@@ -163,7 +163,7 @@ const hmac = await crypto2.hmac.sha256('the native web', 'secret');
 To build this module use [roboter](https://www.npmjs.com/package/roboter).
 
 ```shell
-$ bot
+$ npx roboter
 ```
 
 ## License

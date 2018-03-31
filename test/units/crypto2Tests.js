@@ -2,7 +2,7 @@
 
 const assert = require('assertthat');
 
-const crypto2 = require('../../lib/crypto2');
+const crypto2 = require('../../src/crypto2');
 
 suite('crypto2', () => {
   suite('createPassword', () => {
