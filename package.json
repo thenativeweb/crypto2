@@ -14,7 +14,10 @@
     {
       "name": "Joe Bell",
       "email": "joe@jb-labs.uk"
-    }
+    },
+    {
+      "name": "George Agathos",
+      "email": "gagathos@thecommotion.com"
   ],
   "main": "dist/crypto2.js",
   "dependencies": {
