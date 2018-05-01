@@ -18,11 +18,19 @@ const crypto2 = require('crypto2');
 
 ### Creating passwords
 
-For encrypting and decrypting you will need a password. You can either use an existing one or you can create a new one by calling the `createPassword` function. This function creates passwords with 32 bytes (256 bits) length consisting of lowercase and uppercase letters and digits:
+For encrypting and decrypting you will need a password. To create a secure password, run the `createPassword` function and hand over a secret key:
 
 ```javascript
-const password = await crypto2.createPassword();
+const password = await crypto2.createPassword('secret');
 ```
+
+By default, `createPassword` returns passwords with 32 bytes length. If you have to use passwords of a different length, provide the number of bytes you want the password to have:
+
+```javascript
+const password = await crypto2.createPassword('secret', 64);
+```
+
+*Please note that running `createPassword` twice with the same key results in two different passwords, so you must store the generated password. It can not be recovered if you lost it, even if you know the original key.*
 
 ### Creating and managing keys
 
@@ -51,27 +59,41 @@ To load a public key from a `.pub` file call the `readPublicKey` function and sp
 const publicKey = await crypto2.readPublicKey('key.pub');
 ```
 
-### Encrypting and decrypting
+### Symmetrically encrypting and decrypting
 
-If you want crypto2 to select an encryption algorithm for you, call the `encrypt` and `decrypt` functions without any specific algorithm. This defaults to the AES 256 CBC encryption algorithm:
+If you want crypto2 to select an encryption algorithm for you, call the `encrypt` and `decrypt` functions without any specific algorithm. This defaults to the AES 256 CBC encryption algorithm. Please note that you must provide an initialization vector (*iv*). To create one, use the `createIv` function:
 
 ```javascript
-const encrypted = await crypto2.encrypt('the native web', password);
-// => 6c9ae06e9cd536bf38d0f551f8150065
+const password = await crypto2.createPassword('secret');
+// => [...]
 
-const decrypted = await crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', password);
+const iv = await crypto2.createIv();
+// => [...]
+
+const encrypted = await crypto2.encrypt('the native web', password, iv);
+// => [...]
+
+const decrypted = await crypto2.decrypt(encrypted, password, iv);
 // => the native web
 ```
 
 To encrypt and decrypt using the AES 256 CBC encryption algorithm call the `encrypt.aes256cbc` and `decrypt.aes256cbc` functions:
 
 ```javascript
-const encrypted = await crypto2.encrypt.aes256cbc('the native web', password);
-// => 6c9ae06e9cd536bf38d0f551f8150065
+const password = await crypto2.createPassword('secret');
+// => [...]
 
-const decrypted = await crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', password);
+const iv = await crypto2.createIv();
+// => [...]
+
+const encrypted = await crypto2.encrypt.aes256cbc('the native web', password, iv);
+// => [...]
+
+const decrypted = await crypto2.decrypt.aes256cbc(encrypted, password, iv);
 // => the native web
 ```
+
+### Asymmetrically encrypting and decrypting
 
 To encrypt and decrypt using the asymmetric RSA encryption algorithm call the `encrypt.rsa` and `decrypt.rsa` functions. Due to technical limitations of the RSA algorithm the text to be encrypted must not be longer than 215 bytes when using keys with 2048 bits:
 

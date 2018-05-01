@@ -7,26 +7,36 @@ const crypto = require('crypto'),
 const NodeRSA = require('node-rsa'),
       promisify = require('util.promisify');
 
-const randomBytes = promisify(crypto.randomBytes),
-      readFile = typeof fs.readFile === 'function' ?
-        promisify(fs.readFile) :
-        async function () {
-          throw new Error('Invalid operation.');
-        };
+const pbkdf2 = promisify(crypto.pbkdf2),
+      randomBytes = promisify(crypto.randomBytes);
 
-const createPassword = async function () {
-  // According to http://de.wikipedia.org/wiki/Base64 the formula for calculating
-  // base64's space requirements is: (n + 2 - ((n + 2) % 3)) / 3 * 4. Hence only
-  // 24 bytes are required for creating a password with 32 bytes length.
-  const buffer = await randomBytes(24);
-  const password = buffer.toString('base64');
+let readFile;
 
-  return password;
+if (typeof fs.readFile === 'function') {
+  readFile = promisify(fs.readFile);
+} else {
+  readFile = async function () {
+    throw new Error('Invalid operation.');
+  };
+}
+
+const createPassword = async function (password, length = 32) {
+  const salt = await randomBytes(32);
+  const iterations = 10000;
+
+  const key = (await pbkdf2(password, salt, iterations, length, 'sha512')).
+    toString('hex').
+    substring(0, length);
+
+  return key;
 };
 
 const createKeyPair = async function () {
   /* eslint-disable id-length */
-  const key = new NodeRSA({ b: 2048, e: 65537 }, { environment: 'node', signingAlgorithm: 'sha256' });
+  const key = new NodeRSA({ b: 2048, e: 65537 }, {
+    environment: 'node',
+    signingAlgorithm: 'sha256'
+  });
   /* eslint-enable id-length */
 
   const privateKey = key.exportKey(),
@@ -92,15 +102,22 @@ const processStream = function (cipher, text, options) {
   });
 };
 
-const aes256cbcEncrypt = async function (text, password) {
-  const cipher = crypto.createCipher('aes-256-cbc', password);
+const createIv = async function () {
+  const password = await randomBytes(32);
+  const iv = await createPassword(password, 16);
+
+  return iv;
+};
+
+const aes256cbcEncrypt = async function (text, password, iv) {
+  const cipher = crypto.createCipheriv('aes-256-cbc', password, iv);
   const encrypted = await processStream(cipher, text, { from: 'utf8', to: 'hex' });
 
   return encrypted;
 };
 
-const aes256cbcDecrypt = async function (text, password) {
-  const decipher = crypto.createDecipher('aes-256-cbc', password);
+const aes256cbcDecrypt = async function (text, password, iv) {
+  const decipher = crypto.createDecipheriv('aes-256-cbc', password, iv);
   const decrypted = await processStream(decipher, text, { from: 'hex', to: 'utf8' });
 
   return decrypted;
@@ -181,6 +198,7 @@ const crypto2 = {
   readPrivateKey,
   readPublicKey,
 
+  createIv,
   encrypt: aes256cbcEncrypt,
   decrypt: aes256cbcDecrypt,
 

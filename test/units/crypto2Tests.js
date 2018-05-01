@@ -7,7 +7,7 @@ const crypto2 = require('../../src/crypto2');
 suite('crypto2', () => {
   suite('createPassword', () => {
     test('returns a new random password with 32 bytes length.', async () => {
-      const password = await crypto2.createPassword();
+      const password = await crypto2.createPassword('secret');
 
       assert.that(password.length).is.equalTo(32);
     });
@@ -40,12 +40,24 @@ suite('crypto2', () => {
     });
   });
 
+  suite('createIv', () => {
+    test('returns an initialization vector with 16 bytes length.', async () => {
+      const iv = await crypto2.createIv();
+
+      assert.that(iv.length).is.equalTo(16);
+    });
+  });
+
   suite('encrypt', () => {
     suite('aes256cbc', () => {
       test('encrypts using the AES 256 CBC encryption standard.', async () => {
-        const encryptedText = await crypto2.encrypt.aes256cbc('the native web', 'secret');
+        const password = await crypto2.createPassword('secret');
+        const iv = await crypto2.createIv();
 
-        assert.that(encryptedText).is.equalTo('6c9ae06e9cd536bf38d0f551f8150065');
+        const encryptedText = await crypto2.encrypt.aes256cbc('the native web', password, iv);
+        const decryptedText = await crypto2.decrypt.aes256cbc(encryptedText, password, iv);
+
+        assert.that(decryptedText).is.equalTo('the native web');
       });
     });
 
@@ -62,8 +74,11 @@ suite('crypto2', () => {
     });
 
     test('defaults to AES 256 CBC.', async () => {
-      const actualEncryptedText = await crypto2.encrypt('the native web', 'secret');
-      const expectecEncryptedText = await crypto2.encrypt.aes256cbc('the native web', 'secret');
+      const password = await crypto2.createPassword('secret');
+      const iv = await crypto2.createIv();
+
+      const actualEncryptedText = await crypto2.encrypt('the native web', password, iv);
+      const expectecEncryptedText = await crypto2.encrypt.aes256cbc('the native web', password, iv);
 
       assert.that(actualEncryptedText).is.equalTo(expectecEncryptedText);
     });
@@ -72,14 +87,21 @@ suite('crypto2', () => {
   suite('decrypt', () => {
     suite('aes256cbc', () => {
       test('decrypts using the AES 256 CBC encryption standard.', async () => {
-        const decryptedText = await crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 'secret');
+        const password = await crypto2.createPassword('secret');
+        const iv = await crypto2.createIv();
+
+        const encryptedText = await crypto2.encrypt.aes256cbc('the native web', password, iv);
+        const decryptedText = await crypto2.decrypt.aes256cbc(encryptedText, password, iv);
 
         assert.that(decryptedText).is.equalTo('the native web');
       });
 
       test('throws an error when an invalid string is given.', async () => {
+        const password = await crypto2.createPassword('secret');
+        const iv = await crypto2.createIv();
+
         await assert.that(async () => {
-          await crypto2.decrypt.aes256cbc('this-is-not-encrypted', 'secret');
+          await crypto2.decrypt.aes256cbc('this-is-not-encrypted', password, iv);
         }).is.throwingAsync('Bad input string');
       });
     });
@@ -105,8 +127,12 @@ suite('crypto2', () => {
     });
 
     test('defaults to AES 256 CBC.', async () => {
-      const actualDecryptedText = await crypto2.decrypt('6c9ae06e9cd536bf38d0f551f8150065', 'secret');
-      const expectedDecryptedText = await crypto2.decrypt.aes256cbc('6c9ae06e9cd536bf38d0f551f8150065', 'secret');
+      const password = await crypto2.createPassword('secret');
+      const iv = await crypto2.createIv();
+
+      const encryptedText = await crypto2.encrypt.aes256cbc('the native web', password, iv);
+      const actualDecryptedText = await crypto2.decrypt(encryptedText, password, iv);
+      const expectedDecryptedText = await crypto2.decrypt.aes256cbc(encryptedText, password, iv);
 
       assert.that(actualDecryptedText).is.equalTo(expectedDecryptedText);
     });
